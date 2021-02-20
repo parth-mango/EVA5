@@ -35,7 +35,7 @@ def train(model, device, train_loader, optimizer, epoch):
     total += target.size(0)
     correct += (predicted == target).sum().item()
     pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/total:0.2f}')
-    train_acc.append(100*correct/total)
+  train_acc.append(100*correct/total)
 
 
 
