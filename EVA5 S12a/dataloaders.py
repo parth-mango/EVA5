@@ -9,7 +9,7 @@ class PrepareData(object):
 	classes = ["%s" % i for i in range(200)]
 
 	def __init__(self, args):
-		super(DataEngine, self).__init__()
+		super(PrepareData, self).__init__()
 		self.batch_size_cuda = args.batch_size_cuda
 		self.batch_size_cpu = args.batch_size_cpu
 		self.num_workers = args.num_workers
