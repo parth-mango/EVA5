@@ -18,4 +18,4 @@ v)  test.txt => Description of files to  be used for testing.
 vi) train.shapes
 vii)train.txt
 viii) images(Folder) => Contains images for bounding box 
-ix) labels(Folder) => COntains txt file for every image - has coordinates related to bounding box (x, y, h, w)
+ix) labels(Folder) => Contains txt file for every image - has coordinates related to bounding box (x, y, h, w)
