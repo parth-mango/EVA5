@@ -139,8 +139,129 @@ Let's start with the description of each task, its challenges and solution provi
     4. Grouped Convolution 
     is required to make best use of these operation for an efficient network.
        
+### S8 Assignment :
+    => refer EVA5 S8 for code
+    Task: The assignment consists of:-
+          a. Use Cifar 10 Dataset
+          b. Implement Resnet18 model
+          c. Use the regularization, training, testing and dataloader scripts from the previous submission to run the model.
+          Achieve >85% test accuracy - No limit on the number of epochs.
+          
+    Solution: The ResNet18 model was extracted from kuangkuangliu/pytorch-cifar. Random Crop and Random Horizontal Flip data augmentation techniques were used. The model 
+    was trained for about 30 epochs to achieve the required test accuracy.
+    
+    This assignement gave me a chance to research about the working and archietecture of ResNet 18. It consists of a basic block and an optional bottleneck block
+    Resnet 18 uses only basic blocks with 64, 128, 256 and 512 channels. Another salient feature of ResNet that makes it a truly exceptional network is use of 
+    skip connections. There are two main use of skip connections:
+                      a. Preserve Gradient - Helps to overcome the issue of vanishing gradient for initial layers.
+                      b. In a plethora of tasks (such as semantic segmentation, optical flow estimation , etc.) there is some information that was captured in the initial layers
+                         we would like to allow the later layers to also learn from them.                       
+    
+    
+    
+### S9 Assignment :
+    => refer EVA5 S9 for code
+    Task: The assignment consists of:-
+          a. Implement Albumentation (Data Augmentation) techniques like Horizontal Flip, Cutout , Random Crop - Individually different for training and testing.
+          b. Implement Gradcam to the predictions.
+          c. Use the Resnet18 code, regularization, training, testing and dataloader scripts from the previous submission to run the model.
+          Achieve >87% test accuracy - No limit on the number of epochs.
+    
+    Solution: The albumentation library is a well documented and easy to implement library for implementation of albumentation transforms. Tranforms namely - Horizontal flip,
+    Cutout, Normalize, Randomcrop, ToTensorV2 were used for training dataset, while Normalize and ToTensorV2 were used for testing dataset.
+    
+    For gradcam implementation, several sources were taken into reference to tailor fit the final code as per the requirements. For reference, check grad_cam.py in S9. 
+    Gradient-weighted Class Activation Mapping (GradCAM) uses the gradients of any target concept (say logits for 'dog' or even a caption),
+    flowing into the final convolutionallayer to produce a coarse localization map highlighting the important regions in the image for predicting the concept. 
+
+    We take the final convolutional feature map, and then we weight every channel in that feature with the gradient of the class with respect to the channel. 
+    It tells us how intensely the input image activates different channels by how important each channel is with regard to the class. It does not require any re-training 
+    or change in the existing architecture.
+    
+    The model was trained for about 65 epochs to achieve the required test accuracy.
+    
+ 
+### S10 Assignment :
+     => refer EVA5 S10 for code
+     Task: The assignment consists of:-
+           a. Implement LR finder to find the best LR
+           b. Implement ReduceLROnPleatue
+           c. Show training and testing accuracy curves
+           d. Use the Resnet18 code, regularization, Albumentation,training, testing and dataloader scripts from the previous submission to run the model.
+           Achieve >88% test accuracy under 50 epochs.
+           
+      Solution: The LR finder code was extracted from davidtvs/pytorch-lr-finder. SGD was used as optimizer with Cross-Entropy loss as criterion. Range test is done 
+      by setting end_lr, num_iter, step_mode. Upon plotting the LR finder plot the best LR is suggested based on the steepest gradient.
+      
+      ReduceLROnPleatue is imported from torch.optim.lr_scheduler. It functions as a regularizer by preventing pleatuing of the training. The learning rate is changed 
+      by a pre-determined value to adjust to the direction of global minima. The most common technique is to start with a larger learning rate in the begining and then 
+      reducing as soon as the model starts to pleatue. This technique does helps in squeezing out better accuracy in the later part of training.
+      
+      The model was trained for 50 epochs to achieve 89.87% test accuracy.
 
 
-              
-              
-              
+### S11 Assignment :              
+    => refer EVA5 S11 for code 
+    Task: The assignment consists of:-
+          a. Write a code which uses this new ResNet Architecture for Cifar10:
+             PrepLayer - Conv 3x3 s1, p1) >> BN >> RELU [64k]
+             Layer1 -
+             X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [128k]
+             R1 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [128k] 
+             Add(X, R1)
+             Layer 2 -
+             Conv 3x3 [256k]
+             MaxPooling2D
+             BN
+             ReLU
+             Layer 3 -
+             X = Conv 3x3 (s1, p1) >> MaxPool2D >> BN >> RELU [512k]
+             R2 = ResBlock( (Conv-BN-ReLU-Conv-BN-ReLU))(X) [512k]
+             Add(X, R2)
+             MaxPooling with Kernel Size 4
+             FC Layer 
+             SoftMax
+          b. Use One Cycle Policy such that:
+             Total Epochs = 24
+             Max at Epoch = 5
+             LRMIN = To be calculated 
+             LRMAX = To be calculated
+             NO Annihilation   
+          
+          c. Use this transform - RandomCrop 32, 32 (after padding of 4) >> FlipLR >> Followed by CutOut(8, 8)
+          
+          d. Use the LR Finder, Resnet18 code, regularization, Albumentation,training, testing and dataloader scripts from the previous submission to run the model.
+          Achieve 90% test accuracy - Batch SIze = 512.
+    
+    Solution: The model was written as Net class importing from nn.Module. The __init__ function defines the different layers used in the model namely convolution, maxpool2d, 
+    Batch Normalization, flatten and linear. (refer model.py in EVA S11)
+    The Forward function was thus written in the Net class with defines the archietecture - how each layer is arranged followed by relu and regularization like dropout.
+    The network also involves addition of layers much like skip connection in ResNet. Finally the model outputs the softmax probabilities for the input data.
+    The model was successfully written and implemented. 
+    
+    OnecycleLR is imported from torch.optim.The hyperparameters include optimizer, max_lr, epochs, steps_per_epoch ,pct_start.
+    OnecycleLR is a superconvergence strategy devised by leslie smith. With superconvergence, neural networks can be trained an order of magnitude faster 
+    than with standard training methods. One of the key elements in super-convergence is training with one learning rate cycle and a large maximum learning rate. 
+    A primary insight that allows super-convergence training is that large learning rates regularize the training, hence requiring a reduction of all other 
+    forms of regularization in order to preserve the optimal balance.
+
+    Leslie smith recommends doing one cycle of learning rate of 2 steps of equal length. We choose the maximum learning rate using a range test. 
+    We use a lower learning rate as 1/5th or 1/10th of the maximum learning rate. We go from a lower learning rate to a higher learning rate in step 1 
+    and back to a lower learning rate in step 2. 
+    
+    The superconvergence technique of OnecycleLR worked perfectly fine and gave superfast accuracy results which were expected during the start of training. 
+    
+    The model was trained for 25 epochs to achieve 88.07% test accuracy.
+
+     
+    
+ 
+
+
+     
+    
+    
+    
+    
+    
+    
