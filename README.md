@@ -255,13 +255,68 @@ Let's start with the description of each task, its challenges and solution provi
 
      
     
- 
-
-
-     
+### S12 Assignment :
+    => refer EVA5 S12a and S12b for code 
+    Task: This assignment consists of:
+          12.A: Assignment on Tiny Imagenet Dataset :
+                a. Split the dataset 70-30  
+                b. Train ResNet 18 on the dataset
+                Achieve >50% Test accuracy in 50 epochs.
+          12.B: Assignment on clustering, data Collection and annotation:
+                a. Download/collect minimum 50 images each of people wearing Hardhat, vest, mask and boots.
+                b. Annotate bounding boxes around hardhat, vest, mask and boots.
+                c. Find out the best total number of cluster using k-means algorithm. 
     
+    Solution 12.A: Quite importantly the first task of problem was to preprocess the data and make a 70%-30% split. The dataset was first unzipped. It initally contained 90% 
+    data in the train directory and rest 10% data in the val directory. The validation data along with its labels were then first cleared from the val directory. Then, the
+    complete data along with labels was distributed in new train and test directory with the required split.
     
+    It was initally difficult to achieve the required accuracy as the number of classes are 200 with not much data for each individual class. Few changes were introduced namely:
+    a. Data Augmentation using Albumentaion: Transforms used are : RandomCrop, PadIfNeeded, RGBShift, Rotate
+    b. Batch Size= 256
+    c. Both L1 and L2 decay were used.
+    d. Use of OnecycleLR to achieve faster convergence.
+    The required accuracy was achieved in 35 epochs.
     
+    Solution 12.B: For annotation of the collected data, the annotation tool used was VIA - VGG Image Annotator by Oxford. The Json File obtained was retreived. 
+    Ratio of height and width of bounding box to the image height and width wre respectively calculated. The logarithm of these ratio were calculated. The array of the 
+    ratio was then used as data for calculating the best total number of cluster(which denotes the number of different anchor boxes). Upon implementation of k-means clustering
+    the number of cluster was obtained to be 3 and subsequent graph was plotted.(refer S12b)
     
+### S13 Assignment :    
+    => refer EVA5 S13a and S13b for code  
+    Task: This assignment consists of:
+          13.A: Assignment on OpenCV Yolo :
+                a. Take an image of yourself holding an object which is one of the class in COCO Dataset.
+          13.B: Assignment on YoloV3 :
+          a. Train custom data which was annotated in the last assignment using YoloV3
+          b. Download a very small (~10-30sec) video from youtube which shows your classes. 
+          c. Use ffmpeg to extract frames from the video.
+          d. Infer on these images using YoloV3 and generate detection outputs and save them in output folder.
+          e. Use ffmpeg  to convert the files in your output folder to video
+          
+    Solution 13.A: The assignment was fairly simple. The OpenCV code was taken from the article by Sergio Canu on "Yolo Object Detectiob using OpenCV with Python". 
+    I posed in front of camera with a fork in my right hand(One of the classes of COCO dataset). It was a good photography session and after few poor clicks, i finally 
+    got a good click with good lightning and a tolerable face. The model easily predicted the fork in my hand. Job done.
+    
+    Solution 13.B: The Reference code for YOLOV3 was taken from theschoolofai/YoloV3. The weights for YoloV3 were downloaded and stored in designated folder.
+    Changes in the config file were done namely:
+    a. Changes in filters according to number of classes.
+    b. Changes in the number of classes to be detected(4 in Our case)
+    c. Since we were working with limited samples so we changed burn_in to 100, max_batches to 500, steps to 4000,4500
+    
+    Data folder was prepared which has following files: 
+    a. images
+    b. labels
+    c. custom.data (data file - containes paths)
+    d. custom.names (class names)
+    e. custom.txt (list of name/path of the images we want our network to be trained on)
+    
+    First the model was train on SmallCOCO dataset for 3 epochs and then trained on Custom Data for 5 epochs using the above mentioned custom config file.
+    Using the ffmpeg  frames from the a construction video were extracted and store in video_frames folder.
+    The inference was made on the video frames using detect.py script and the detection threshold was kept low ~0.1. The model could detect the hardhat, boots, mask, and vest 
+    in frames with a good accuracy. The detected frame output was then stored in output folder.
+    The frames were converted into MP4 video format and the video was uploaded on the youtube.
+    Have a look: https://youtu.be/nPgygJrF1J0
     
     
