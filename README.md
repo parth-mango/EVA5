@@ -319,4 +319,37 @@ Let's start with the description of each task, its challenges and solution provi
     The frames were converted into MP4 video format and the video was uploaded on the youtube.
     Have a look: https://youtu.be/nPgygJrF1J0
     
+### S14 Assignment :
+    => refer EVA5 S14 for code
+    Task: This assignment consists of:
+          a. Take the dataset of hardhat, boots, mask and vest prepared in previous assignment and run:
+             1. MIdas and get depth images.
+             2. PlaneRCNN and get planer images.
+             
+          b. Make a new dataset containing depth maps from midas, surface planes from planeRCNN and bounding box from YoloV3.
+    
+    Solution: MIDAS Depth Map: Monocular Depth Estimation We have used the MIDAS model to generate a depth map. The MIDAS technique was published in the research paper titled 
+    “Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer” Here we do Monocular depth estimation from a single rgb image. The output of 
+    the algorithm is a single image file with a depth map differentiated by the intensity of the different areas of the map. This type of data can be used for multiple 
+    applications including Augmented Reality, Robotics, Autonomous Systems and Self- Driving Cars.
+             
+    PlaneRCNN Surface Planes: We have used PlaneRCNN algorithm to make surface planes along with depth maps for an image. Here we only use surface planes and drop the depth maps. 
+    PlaneRCNN was published in the research paper “PlaneRCNN: 3D Plane Detection and Reconstruction from a Single Image” by NVIDIA Research. This algorithm detects and 
+    reconstructs piecewise plane surfaces using a variant of MaskRCNN. As input, we need just a single RGB image. For every single input, it provides 9 output files including 
+    DEPTH Maps, 3Dplanes, and planer regions. Different regions are annotated using different colored masks.
+    
+    Bounding Boxes: The dataset has 4 classes and it was annotated using an annotator tool that provides us with coordinates of bounding boxes along with their dimensions. Folder 
+    consists of i). classes.txt => Contains names of the four classes ii). custom.names iii). custom. data => Number of classes and path of files containing names of train, 
+    validation images and path to custom.name file iv) test.shapes v) test.txt => Description of files to be used for testing. vi) train.shapes vii)train.txt viii) images(Folder) 
+    => Contains images for bounding box ix) labels(Folder) => Contains txt file for every image - has coordinates related to bounding box (x, y, h, w)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
